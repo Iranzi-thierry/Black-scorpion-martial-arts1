@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Scorpion Martial Arts</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f5f5f5; color:#2c2c2c; line-height:1.6; }
+  .wrap { max-width:900px; margin:0 auto; padding:0 1.2rem; }
+  header { background:#1a1a1a; border-bottom:4px solid #c62828; padding:1rem 0; }
+  .nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; }
+  .brand { color:#fff; font-weight:800; font-size:1.2rem; }
+  .brand span { color:#ef5350; }
+  nav { display:flex; gap:0.3rem; flex-wrap:wrap; }
+  nav a { color:#ddd; text-decoration:none; font-size:0.85rem; padding:0.4rem 0.8rem; border-radius:40px; }
+  nav a:hover { background:rgba(198,40,40,0.3); color:#fff; }
+  .hero { background:linear-gradient(135deg,#0d0d0d,#2a0a0a); color:#fff; padding:3rem 0; text-align:center; }
+  .hero h1 { font-size:2.2rem; font-weight:900; margin-bottom:0.5rem; }
+  .hero p { color:#ccc; margin-bottom:1.5rem; }
+  .btn { display:inline-block; padding:0.8rem 1.8rem; background:linear-gradient(135deg,#c62828,#8e0000); color:#fff; text-decoration:none; border-radius:50px; font-weight:700; border:none; cursor:pointer; font-size:1rem; }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(198,40,40,0.4); }
+  .section { padding:2.5rem 0; }
+  .section h2 { font-size:1.8rem; margin-bottom:1.5rem; color:#1a1a1a; }
+  .section h2::after { content:''; display:block; width:50px; height:4px; background:#c62828; margin-top:0.3rem; border-radius:4px; }
+  form { background:#fff; padding:1.5rem; border-radius:16px; box-shadow:0 10px 30px -5px rgba(0,0,0,0.08); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  label { display:block; font-weight:600; font-size:0.85rem; margin-bottom:0.3rem; }
+  input, select, textarea { width:100%; padding:0.7rem 1rem; border:2px solid #e0e0e0; border-radius:10px; font-size:0.95rem; font-family:inherit; background:#fafafa; outline:none; }
+  input:focus, select:focus, textarea:focus { border-color:#c62828; background:#fff; }
+  textarea { resize:vertical; min-height:80px; }
+  .status { margin-top:1rem; padding:0.7rem; border-radius:10px; text-align:center; font-weight:600; }
+  .status.success { background:#e8f5e9; color:#2e7d32; }
+  .status.error { background:#ffebee; color:#c62828; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1rem; }
+  .card { background:#fff; padding:1.3rem; border-radius:14px; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
+  .card h3 { color:#1a1a1a; margin-bottom:0.5rem; font-size:1rem; }
+  .card p { color:#666; font-size:0.9rem; }
+  footer { background:#1a1a1a; color:#999; text-align:center; padding:1.5rem; font-size:0.85rem; border-top:4px solid #c62828; margin-top:2rem; }
+  .tabs { display:flex; gap:0.3rem; margin-bottom:1.5rem; background:#f0f0f0; padding:0.3rem; border-radius:40px; }
+  .tab { flex:1; padding:0.7rem; border:none; background:transparent; border-radius:40px; font-weight:700; cursor:pointer; font-size:0.9rem; color:#666; }
+  .tab.active { background:#c62828; color:#fff; }
+  .login-box { background:#fff; max-width:450px; margin:3rem auto; padding:2rem; border-radius:20px; box-shadow:0 25px 50px rgba(0,0,0,0.15); }
+  .login-box .logo { text-align:center; margin-bottom:1.5rem; }
+  .login-box .logo h1 { color:#c62828; font-size:1.8rem; font-weight:900; }
+  .login-box .logo p { color:#666; font-size:0.9rem; }
+  .section-auth { display:none; }
+  .section-auth.active { display:block; }
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:0.7rem; margin-bottom:1.5rem; }
+  .stat { background:#1a1a1a; color:#fff; padding:1.2rem; border-radius:12px; text-align:center; }
+  .stat .num { font-size:1.8rem; font-weight:900; }
+  .stat .lbl { font-size:0.8rem; color:#ccc; }
+  .stat.green { background:#2e7d32; }
+  .stat.red { background:#c62828; }
+  .stat.gold { background:#f9a825; color:#1a1a1a; }
+  .stat.gold .lbl { color:#5d4037; }
+  .topbar { background:#1a1a1a; color:#fff; padding:1rem 1.3rem; border-radius:14px; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; }
+  .topbar .who strong { color:#ef5350; }
+  .logout-btn { background:#c62828; color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.85rem; }
+  .grid-tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+  .tile { background:#fff; padding:1.5rem; border-radius:14px; box-shadow:0 5px 15px rgba(0,0,0,0.05); text-decoration:none; color:inherit; display:block; transition:transform 0.2s; }
+  .tile:hover { transform:translateY(-4px); }
+  .tile .icon { font-size:2rem; margin-bottom:0.5rem; }
+  .tile h3 { color:#1a1a1a; margin-bottom:0.3rem; font-size:1.1rem; }
+  .tile p { color:#666; font-size:0.85rem; }
+  .student-row { background:#fff; padding:1rem; margin-bottom:0.7rem; border-radius:12px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 3px 10px rgba(0,0,0,0.05); flex-wrap:wrap; gap:0.5rem; }
+  .student-row .name { font-weight:700; }
+  .btn-present { background:#2e7d32; color:#fff; padding:0.5rem 1.2rem; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+  .btn-absent { background:#c62828; color:#fff; padding:0.5rem 1.2rem; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+  .btn-present.active { background:#1b5e20; box-shadow:0 0 0 3px #a5d6a7; }
+  .btn-absent.active { background:#8e0000; box-shadow:0 0 0 3px #ef9a9a; }
+  .finance-box { background:#fff; padding:1.5rem; border-radius:14px; margin-bottom:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
+  .search { width:100%; padding:0.8rem 1rem; border:2px solid #e0e0e0; border-radius:12px; margin-bottom:1rem; font-size:0.95rem; outline:none; }
+  .search:focus { border-color:#c62828; }
+  @media (max-width:600px) { .grid { grid-template-columns:1fr; } .hero h1 { font-size:1.6rem; } }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 1: LANDING + LOGIN                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-login">
+  <header>
+    <div class="wrap nav">
+      <div class="brand">🥋 BLACK <span>SCORPION</span></div>
+    </div>
+  </header>
+
+  <div class="login-box">
+    <div class="logo">
+      <h1>🥋 BLACK SCORPION</h1>
+      <p>Martial Arts - Musanze</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="student">👨‍🎓 Umunyeshuri</button>
+      <button class="tab" data-tab="admin">👑 Admin</button>
+    </div>
+
+    <div class="section-auth active" id="student-section">
+      <form id="studentLoginForm">
+        <div style="margin-bottom:1rem;">
+          <label>Amazina yawe</label>
+          <input name="name" placeholder="Amazina yose" required>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label>Telefone</label>
+          <input name="phone" placeholder="078..." required>
+        </div>
+        <button class="btn" type="submit" style="width:100%;">Injira</button>
+        <p class="status" id="studentStatus"></p>
+      </form>
+      <div style="text-align:center;margin-top:1rem;font-size:0.9rem;">
+        Nta konti ufite? <a href="#" onclick="showPage('page-register');return false;" style="color:#c62828;font-weight:600;">Iyandikishe hano</a>
+      </div>
+    </div>
+
+    <div class="section-auth" id="admin-section">
+      <form id="adminLoginForm">
+        <div style="margin-bottom:1rem;">
+          <label>Email</label>
+          <input name="email" type="email" placeholder="admin@..." required>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label>Password</label>
+          <input name="password" type="password" placeholder="••••••" required>
+        </div>
+        <button class="btn" type="submit" style="width:100%;">Injira nka Admin</button>
+        <p class="status" id="adminStatus"></p>
+      </form>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem;">
+      <a href="#" onclick="showPage('page-students');return false;" style="color:#666;text-decoration:none;font-size:0.85rem;">📋 Reba abanyeshuri bose</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 2: REGISTER                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-register" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <div style="background:#fff;padding:2rem;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.08);max-width:700px;margin:auto;">
+      <a href="#" onclick="showPage('page-login');return false;" style="color:#c62828;text-decoration:none;font-weight:600;font-size:0.9rem;">← Subira</a>
+      <h1 style="color:#c62828;margin:0.5rem 0;font-size:1.5rem;">📝 Kwiyandikisha</h1>
+      <p style="color:#666;font-size:0.9rem;margin-bottom:1.5rem;">Uzuza iyi fishi kugira ngo winjire muri Black Scorpion</p>
+      <form id="registrationForm">
+        <div class="grid">
+          <label>Amazina yose<input name="studentName" required placeholder="Amazina yose"></label>
+          <label>Igitsina<select name="gender" required><option value="">Hitamo</option><option>Gabo</option><option>Gore</option></select></label>
+          <label>Itariki yinjiye<input type="date" name="joinDate" required></label>
+          <label>Telefone yawe<input name="studentPhone" placeholder="078..." required></label>
+          <label>Izina ry'umubyeyi<input name="guardianName" placeholder="Umubyeyi"></label>
+          <label>Telefone y'umubyeyi<input name="guardianPhone" placeholder="078..."></label>
+        </div>
+        <label>Andi makuru<textarea name="message" placeholder="Andi makuru..."></textarea></label>
+        <button class="btn" type="submit" style="width:100%;margin-top:1rem;">Ohereza Kwiyandikisha</button>
+        <p class="status" id="registerStatus"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 3: STUDENTS - PUBLIC                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-students" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <a href="#" onclick="showPage('page-login');return false;" style="color:#c62828;text-decoration:none;font-weight:600;font-size:0.9rem;">← Subira</a>
+    <h1 style="color:#c62828;margin:0.5rem 0;">👥 Abanyeshuri</h1>
+    <p style="color:#666;font-size:0.9rem;margin-bottom:1.5rem;">Reba abanyeshuri bose biyandikishije</p>
+    <div class="stats-row">
+      <div class="stat"><div class="num" id="statTotal">0</div><div class="lbl">Abanyeshuri</div></div>
+      <div class="stat green"><div class="num" id="statMale">0</div><div class="lbl">Abagabo</div></div>
+      <div class="stat red"><div class="num" id="statFemale">0</div><div class="lbl">Abagore</div></div>
+    </div>
+    <input class="search" id="searchStudents" placeholder="🔍 Shakisha umunyeshuri...">
+    <div id="studentsList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 4: DASHBOARD                                     -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-dashboard" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <div class="topbar">
+      <div class="who">👋 <strong id="dashUsername">...</strong></div>
+      <button class="logout-btn" onclick="logout()">Sohoka</button>
+    </div>
+    <h1 style="color:#c62828;margin-bottom:1rem;">📊 Dashboard</h1>
+    <div class="stats-row" id="dashStatsRow">
+      <div class="stat"><div class="num" id="dashStudents">0</div><div class="lbl">Abanyeshuri</div></div>
+      <div class="stat green"><div class="num" id="dashPresent">0</div><div class="lbl">Baje</div></div>
+      <div class="stat red"><div class="num" id="dashAbsent">0</div><div class="lbl">Basibye</div></div>
+      <div class="stat gold"><div class="num" id="dashBalance">0</div><div class="lbl">Balance (RWF)</div></div>
+    </div>
+    <h2 style="color:#1a1a1a;margin:1rem 0;font-size:1.2rem;">🔗 Ibikorwa</h2>
+    <div class="grid-tiles" id="dashTiles"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 5: ATTENDANCE                                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-attendance" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <a href="#" onclick="showPage('page-dashboard');return false;" style="color:#c62828;text-decoration:none;font-weight:600;font-size:0.9rem;">← Subira Dashboard</a>
+    <h1 style="color:#c62828;margin:0.5rem 0;">📋 Attendance</h1>
+    <div style="background:#fff;padding:1rem;border-radius:12px;margin-bottom:1rem;box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+      <label style="font-weight:600;font-size:0.9rem;">Itariki:</label><br>
+      <input type="date" id="attendanceDate" style="padding:0.6rem;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;">
+    </div>
+    <div id="attendanceList"></div>
+    <div id="attendanceSummary" style="background:#1a1a1a;color:#fff;padding:1rem;border-radius:12px;margin-top:1rem;display:none;">
+      <div style="display:flex;justify-content:space-around;text-align:center;">
+        <div><div style="font-size:1.8rem;font-weight:900;" id="attPresent">0</div><div style="font-size:0.8rem;color:#ccc;">Baje</div></div>
+        <div><div style="font-size:1.8rem;font-weight:900;" id="attAbsent">0</div><div style="font-size:0.8rem;color:#ccc;">Basibye</div></div>
+        <div><div style="font-size:1.8rem;font-weight:900;" id="attTotal">0</div><div style="font-size:0.8rem;color:#ccc;">Bose</div></div>
+      </div>
+    </div>
+    <button class="btn" id="saveAttendance" style="width:100%;margin-top:1rem;padding:1rem;">💾 Bika Attendance</button>
+    <p class="status" id="attendanceStatus"></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 6: FINANCE                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-finance" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <a href="#" onclick="showPage('page-dashboard');return false;" style="color:#c62828;text-decoration:none;font-weight:600;font-size:0.9rem;">← Subira Dashboard</a>
+    <h1 style="color:#c62828;margin:0.5rem 0;">💰 Amafaranga</h1>
+    <div class="stats-row">
+      <div class="stat green"><div class="num" id="finIncome">0</div><div class="lbl">Yinjiye (RWF)</div></div>
+      <div class="stat red"><div class="num" id="finExpense">0</div><div class="lbl">Yasohotse (RWF)</div></div>
+      <div class="stat gold"><div class="num" id="finBalance">0</div><div class="lbl">Balance (RWF)</div></div>
+    </div>
+    <div class="finance-box">
+      <h3 style="margin-bottom:1rem;">➕ Ongeraho</h3>
+      <form id="financeForm">
+        <div class="grid">
+          <label>Ubwoko<select name="type" required><option value="income">💰 Yinjiye</option><option value="expense">💸 Yasohotse</option></select></label>
+          <label>Amafaranga (RWF)<input type="number" name="amount" required placeholder="10000"></label>
+          <label>Icyakozwe<input name="description" placeholder="Urugero: Kwishyura kwa Jean"></label>
+          <label>Itariki<input type="date" name="entry_date" required></label>
+        </div>
+        <button class="btn" type="submit" style="width:100%;margin-top:1rem;">Bika</button>
+        <p class="status" id="financeStatus"></p>
+      </form>
+    </div>
+    <h3 style="margin:1.5rem 0 1rem;">📜 Amateka</h3>
+    <div id="financeList"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  PAGE 7: SUPER ADMIN                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="page-superadmin" style="display:none;">
+  <header><div class="wrap nav"><div class="brand">🥋 BLACK <span>SCORPION</span></div></div></header>
+  <div class="wrap" style="padding:2rem 1.2rem;">
+    <div class="topbar" style="background:linear-gradient(135deg,#f9a825,#c62828);">
+      <div class="who">👑 SUPER ADMIN — <span id="saUsername">...</span></div>
+      <button class="logout-btn" onclick="logout()" style="background:#1a1a1a;">Sohoka</button>
+    </div>
+    <h1 style="color:#c62828;margin-bottom:1rem;">👑 Super Admin Panel</h1>
+    <div style="background:#fff;padding:1.5rem;border-radius:14px;margin-bottom:1rem;box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+      <h3 style="color:#c62828;margin-bottom:1rem;">🔐 Amakuru Yawe</h3>
+      <p><strong>Email:</strong> <span id="saEmail">-</span></p>
+      <p><strong>Izina:</strong> <span id="saName">-</span></p>
+      <p><strong>Role:</strong> SUPER ADMIN ✅</p>
+    </div>
+    <div class="grid-tiles">
+      <a class="tile" href="#" onclick="showPage('page-dashboard');return false;"><div class="icon">📊</div><h3>Dashboard</h3><p>Reba byose</p></a>
+      <a class="tile" href="#" onclick="showPage('page-students');return false;"><div class="icon">👥</div><h3>Abanyeshuri</h3><p>List</p></a>
+      <a class="tile" href="#" onclick="showPage('page-attendance');return false;"><div class="icon">📋</div><h3>Attendance</h3><p>Andika</p></a>
+      <a class="tile" href="#" onclick="showPage('page-finance');return false;"><div class="icon">💰</div><h3>Amafaranga</h3><p>Yinjiye/Yasohotse</p></a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 Black Scorpion Martial Arts — Iranzi Thierry</footer>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ══════════════════════════════════════════════════════
+//  SUPABASE CONFIG — URL NA KEY YAWE
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://rznqavptnfhwovyihlgc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6bnFhdnB0bmZod292eWlobGdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMjc5OTMsImV4cCI6MjEwNjYwMzk5M30.1Uqu_e6mT8R-7l8McugO7xMs53GHdGIwLruPmrNvG54';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ══════════════════════════════════════════════════════
+//  ROLES (URWEGO)
+// ══════════════════════════════════════════════════════
+const ROLES = {
+  SUPER_ADMIN: {
+    email: 'iranzithierry145@gmail.com',
+    password: 'Iranzi@2026!',
+    role: 'super_admin',
+    full_name: 'Iranzi Thierry',
+    canEdit: true
+  },
+  MASTER: {
+    email: 'niyomugabo09@gmail.com',
+    password: 'Coach@2026!',
+    role: 'master',
+    full_name: 'Niyomugabo Jean Baptiste',
+    canEdit: false
+  }
+};
+
+// ══════════════════════════════════════════════════════
+//  SHOW/HIDE PAGES
+// ══════════════════════════════════════════════════════
+const PAGES = ['page-login','page-register','page-students','page-dashboard','page-attendance','page-finance','page-superadmin'];
+function showPage(id) {
+  PAGES.forEach(p => document.getElementById(p).style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+  window.scrollTo(0, 0);
+  
+  if (id === 'page-students') loadStudents();
+  if (id === 'page-attendance') loadAttendance();
+  if (id === 'page-finance') loadFinance();
+  if (id === 'page-dashboard') loadDashboard();
+}
+
+// ══════════════════════════════════════════════════════
+//  LOGIN
+// ══════════════════════════════════════════════════════
+window.loginAdmin = async function(email, password) {
+  if (email === ROLES.SUPER_ADMIN.email && password === ROLES.SUPER_ADMIN.password) {
+    const user = { ...ROLES.SUPER_ADMIN };
+    localStorage.setItem('bs_user', JSON.stringify(user));
+    return { success: true, user };
+  }
+  if (email === ROLES.MASTER.email && password === ROLES.MASTER.password) {
+    const user = { ...ROLES.MASTER };
+    localStorage.setItem('bs_user', JSON.stringify(user));
+    return { success: true, user };
+  }
+  return { success: false, error: 'Email cyangwa password ntibyemewe.' };
+};
+
+window.loginStudent = async function(name, phone) {
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .eq('student_name', name)
+    .eq('student_phone', phone)
+    .single();
+  
+  if (error || !data) return { success: false, error: 'Amazina cyangwa telefone ntibyemewe.' };
+  
+  const user = { 
+    id: data.id, 
+    student_name: data.student_name, 
+    role: 'student',
+    full_name: data.student_name,
+    phone: data.student_phone,
+    canEdit: false
+  };
+  localStorage.setItem('bs_user', JSON.stringify(user));
+  return { success: true, user };
+};
+
+window.logout = function() {
+  if (confirm('Ufite icyizere ko ushaka gusohoka?')) {
+    localStorage.removeItem('bs_user');
+    showPage('page-login');
+    document.getElementById('studentLoginForm').reset();
+    document.getElementById('adminLoginForm').reset();
+  }
+};
+
+window.getUser = function() {
+  return JSON.parse(localStorage.getItem('bs_user') || 'null');
+};
+
+// ══════════════════════════════════════════════════════
+//  FORM: LOGIN
+// ══════════════════════════════════════════════════════
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section-auth').forEach(s => s.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab + '-section').classList.add('active');
+  });
+});
+
+document.getElementById('studentLoginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const status = document.getElementById('studentStatus');
+  const data = new FormData(this);
+  status.textContent = '⏳ Turakomeza...';
+  status.className = 'status';
+  const result = await loginStudent(data.get('name'), data.get('phone'));
+  if (result.success) {
+    status.textContent = '✅ Byagenze neza!';
+    status.className = 'status success';
+    setTimeout(() => { showPage('page-dashboard'); loadDashboard(); }, 800);
+  } else {
+    status.textContent = '❌ ' + result.error;
+    status.className = 'status error';
+  }
+});
+
+document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const status = document.getElementById('adminStatus');
+  const data = new FormData(this);
+  status.textContent = '⏳ Turakomeza...';
+  status.className = 'status';
+  const result = await loginAdmin(data.get('email'), data.get('password'));
+  if (result.success) {
+    status.textContent = '✅ Byagenze neza!';
+    status.className = 'status success';
+    setTimeout(() => { showPage('page-dashboard'); loadDashboard(); }, 800);
+  } else {
+    status.textContent = '❌ ' + result.error;
+    status.className = 'status error';
+  }
+});
+
+// ══════════════════════════════════════════════════════
+//  FORM: REGISTRATION
+// ══════════════════════════════════════════════════════
+document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const status = document.getElementById('registerStatus');
+  const data = new FormData(this);
+  status.textContent = '⏳ Turakomeza...';
+  status.className = 'status';
+  
+  const { error } = await supabase.from('registrations').insert([{
+    student_name: data.get('studentName'),
+    gender: data.get('gender'),
+    join_date: data.get('joinDate'),
+    student_phone: data.get('studentPhone'),
+    guardian_name: data.get('guardianName'),
+    guardian_phone: data.get('guardianPhone'),
+    message: data.get('message')
+  }]);
+  
+  if (error) {
+    status.textContent = '❌ Ikibazo: ' + error.message;
+    status.className = 'status error';
+  } else {
+    status.textContent = '✅ Byagenze neza! Ubu ushobora kwinjira.';
+    status.className = 'status success';
+    this.reset();
+    setTimeout(() => showPage('page-login'), 2000);
+  }
+});
+
+// ══════════════════════════════════════════════════════
+//  PAGE: STUDENTS
+// ══════════════════════════════════════════════════════
+let allStudents = [];
+
+async function loadStudents() {
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('*')
+    .order('created_at', { ascending: false });
+  
+  if (error) { 
+    document.getElementById('studentsList').innerHTML = '<p style="color:#c62828;">❌ ' + error.message + '</p>';
+    return;
+  }
+  
+  allStudents = data || [];
+  document.getElementById('statTotal').textContent = allStudents.length;
+  document.getElementById('statMale').textContent = allStudents.filter(s => s.gender === 'Gabo').length;
+  document.getElementById('statFemale').textContent = allStudents.filter(s => s.gender === 'Gore').length;
+  renderStudents();
+}
+
+function renderStudents(filter = '') {
+  const list = document.getElementById('studentsList');
+  const filtered = allStudents.filter(s => 
+    s.student_name?.toLowerCase().includes(filter.toLowerCase())
+  );
+  
+  if (filtered.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Nta munyeshuri ubonetse.</p>';
+    return;
+  }
+  
+  list.innerHTML = filtered.map(s => `
+    <div class="student-row">
+      <div>
+        <div class="name">${s.gender === 'Gore' ? '👩' : '👨'} ${s.student_name}</div>
+        <div style="font-size:0.85rem;color:#666;margin-top:0.2rem;">
+          📅 ${s.join_date || '-'} | 📞 ${s.student_phone || '-'}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('searchStudents').addEventListener('input', e => renderStudents(e.target.value));
+
+// ══════════════════════════════════════════════════════
+//  PAGE: DASHBOARD
+// ══════════════════════════════════════════════════════
+function loadDashboard() {
+  const user = getUser();
+  if (!user) { showPage('page-login'); return; }
+  
+  document.getElementById('dashUsername').textContent = user.full_name || user.student_name;
+  
+  if (user.role === 'student') {
+    document.getElementById('dashStatsRow').style.display = 'none';
+    document.getElementById('dashTiles').innerHTML = `
+      <a class="tile" href="#" onclick="showPage('page-students');return false;"><div class="icon">👥</div><h3>Abanyeshuri</h3><p>Reba abandi</p></a>
+    `;
+  } else {
+    document.getElementById('dashStatsRow').style.display = 'grid';
+    let tiles = `
+      <a class="tile" href="#" onclick="showPage('page-students');return false;"><div class="icon">👥</div><h3>Abanyeshuri</h3><p>Reba list</p></a>
+      <a class="tile" href="#" onclick="showPage('page-attendance');return false;"><div class="icon">📋</div><h3>Attendance</h3><p>Andika</p></a>
+      <a class="tile" href="#" onclick="showPage('page-finance');return false;"><div class="icon">💰</div><h3>Amafaranga</h3><p>Yinjiye/Yasohotse</p></a>
+    `;
+    if (user.role === 'super_admin') {
+      tiles += `<a class="tile" href="#" onclick="showPage('page-superadmin');return false;" style="border:2px solid #f9a825;"><div class="icon">👑</div><h3>Super Admin</h3><p>Wowe gusa</p></a>`;
+    }
+    document.getElementById('dashTiles').innerHTML = tiles;
+    loadAdminStats();
+  }
+}
+
+async function loadAdminStats() {
+  const { data: s } = await supabase.from('registrations').select('id');
+  document.getElementById('dashStudents').textContent = s?.length || 0;
+  
+  const { data: a } = await supabase.from('attendance').select('status');
+  document.getElementById('dashPresent').textContent = a?.filter(x => x.status === 'present').length || 0;
+  document.getElementById('dashAbsent').textContent = a?.filter(x => x.status === 'absent').length || 0;
+  
+  const { data: f } = await supabase.from('finance').select('type, amount');
+  const income = f?.filter(x => x.type === 'income').reduce((sum, x) => sum + Number(x.amount), 0) || 0;
+  const expense = f?.filter(x => x.type === 'expense').reduce((sum, x) => sum + Number(x.amount), 0) || 0;
+  document.getElementById('dashBalance').textContent = (income - expense).toLocaleString();
+}
+
+// ══════════════════════════════════════════════════════
+//  PAGE: ATTENDANCE
+// ══════════════════════════════════════════════════════
+let attendanceState = {};
+let attendanceStudents = [];
+
+async function loadAttendance() {
+  const user = getUser();
+  if (!user || user.role === 'student') { showPage('page-dashboard'); return; }
+  
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('attendanceDate').value = today;
+  
+  const { data, error } = await supabase.from('registrations').select('id, student_name, gender').order('student_name');
+  
+  if (error) {
+    document.getElementById('attendanceList').innerHTML = '<p style="color:#c62828;">❌ ' + error.message + '</p>';
+    return;
+  }
+  
+  attendanceStudents = data || [];
+  attendanceState = {};
+  attendanceStudents.forEach(s => { attendanceState[s.id] = null; });
+  renderAttendanceList();
+  document.getElementById('attendanceSummary').style.display = 'none';
+}
+
+function renderAttendanceList() {
+  const list = document.getElementById('attendanceList');
+  
+  if (attendanceStudents.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Nta munyeshuri urahari.</p>';
+    return;
+  }
+  
+  list.innerHTML = attendanceStudents.map(s => `
+    <div class="student-row">
+      <div class="name">${s.gender === 'Gore' ? '👩' : '👨'} ${s.student_name}</div>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn-present" data-id="${s.id}" data-status="present">✅ Yaje</button>
+        <button class="btn-absent" data-id="${s.id}" data-status="absent">❌ Yasibye</button>
+      </div>
+    </div>
+  `).join('');
+  
+  document.querySelectorAll('.student-row button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const status = this.dataset.status;
+      attendanceState[id] = status;
+      const row = this.closest('.student-row');
+      row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+}
+
+document.getElementById('saveAttendance').addEventListener('click', async function() {
+  const status = document.getElementById('attendanceStatus');
+  const date = document.getElementById('attendanceDate').value;
+  
+  if (!date) {
+    status.textContent = '⚠️ Hitamo itariki.';
+    status.className = 'status error';
+    return;
+  }
+  
+  const toSave = [];
+  for (const [id, st] of Object.entries(attendanceState)) {
+    if (st === null) continue;
+    const student = attendanceStudents.find(s => s.id == id);
+    toSave.push({
+      student_id: parseInt(id),
+      student_name: student.student_name,
+      attendance_date: date,
+      status: st
+    });
+  }
+  
+  if (toSave.length === 0) {
+    status.textContent = '⚠️ Nta muntu wanditse.';
+    status.className = 'status error';
+    return;
+  }
+  
+  this.disabled = true;
+  this.textContent = '⏳ Turabika...';
+  
+  const { error } = await supabase.from('attendance').insert(toSave);
+  
+  this.disabled = false;
+  this.textContent = '💾 Bika Attendance';
+  
+  if (error) {
+    status.textContent = '❌ ' + error.message;
+    status.className = 'status error';
+  } else {
+    const present = toSave.filter(t => t.status === 'present').length;
+    const absent = toSave.filter(t => t.status === 'absent').length;
+    status.textContent = `✅ Byabitswe! Baje: ${present} | Basibye: ${absent}`;
+    status.className = 'status success';
+    document.getElementById('attPresent').textContent = present;
+    document.getElementById('attAbsent').textContent = absent;
+    document.getElementById('attTotal').textContent = toSave.length;
+    document.getElementById('attendanceSummary').style.display = 'block';
+  }
+});
+
+// ══════════════════════════════════════════════════════
+//  PAGE: FINANCE
+// ══════════════════════════════════════════════════════
+async function loadFinance() {
+  const user = getUser();
+  if (!user || user.role === 'student') { showPage('page-dashboard'); return; }
+  
+  const { data, error } = await supabase.from('finance').select('*').order('created_at', { ascending: false });
+  
+  if (error) {
+    document.getElementById('financeList').innerHTML = '<p style="color:#c62828;">❌ ' + error.message + '</p>';
+    return;
+  }
+  
+  const income = data?.filter(f => f.type === 'income').reduce((sum, f) => sum + Number(f.amount), 0) || 0;
+  const expense = data?.filter(f => f.type === 'expense').reduce((sum, f) => sum + Number(f.amount), 0) || 0;
+  
+  document.getElementById('finIncome').textContent = income.toLocaleString();
+  document.getElementById('finExpense').textContent = expense.toLocaleString();
+  document.getElementById('finBalance').textContent = (income - expense).toLocaleString();
+  
+  if (!data || data.length === 0) {
+    document.getElementById('financeList').innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Nta makuru arahari.</p>';
+    return;
+  }
+  
+  document.getElementById('financeList').innerHTML = data.map(f => `
+    <div class="student-row">
+      <div>
+        <div class="name">${f.type === 'income' ? '💰' : '💸'} ${f.description || f.category || '-'}</div>
+        <div style="font-size:0.85rem;color:#666;">📅 ${f.entry_date || '-'}</div>
+      </div>
+      <div style="font-weight:700;color:${f.type === 'income' ? '#2e7d32' : '#c62828'};">
+        ${f.type === 'income' ? '+' : '-'}${Number(f.amount).toLocaleString()} RWF
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('financeForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const status = document.getElementById('financeStatus');
+  const data = new FormData(this);
+  status.textContent = '⏳ Turabika...';
+  status.className = 'status';
+  
+  const { error } = await supabase.from('finance').insert([{
+    type: data.get('type'),
+    amount: parseFloat(data.get('amount')),
+    description: data.get('description'),
+    category: data.get('type') === 'income' ? 'Income' : 'Expense',
+    person_name: getUser()?.full_name || 'Admin',
+    entry_date: data.get('entry_date')
+  }]);
+  
+  if (error) {
+    status.textContent = '❌ ' + error.message;
+    status.className = 'status error';
+  } else {
+    status.textContent = '✅ Byabitswe!';
+    status.className = 'status success';
+    this.reset();
+    loadFinance();
+  }
+});
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('load', function() {
+  const user = getUser();
+  if (user) {
+    if (user.role === 'super_admin') {
+      document.getElementById('saUsername').textContent = user.full_name;
+      document.getElementById('saEmail').textContent = user.email;
+      document.getElementById('saName').textContent = user.full_name;
+    }
+    showPage('page-dashboard');
+    loadDashboard();
+  } else {
+    showPage('page-login');
+  }
+});
+</script>
+
+</body>
+</html>
